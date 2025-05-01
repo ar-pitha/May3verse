@@ -491,8 +491,10 @@
   </button>
 
   <!-- Audio -->
-  <audio id="background-music" loop>
+  <audio id="background-music" loop preload="auto">
     <source src="https://www.bensound.com/bensound-music/bensound-sweet.mp3" type="audio/mp3">
+    <!-- Add a backup source -->
+    <source src="./music/background-music.mp3" type="audio/mp3">
   </audio>
 
   <!-- Main Content (Hidden Initially) -->
@@ -799,63 +801,61 @@
       }, 300);
     }
 
-    // Button Click Handler with Smoother Transition
+    // Add this at the top of your script section
+    let musicStarted = false;
+
+    // Replace the existing button click handler with this:
     document.getElementById('open-wish').addEventListener('click', () => {
       // Launch confetti
       launchConfetti();
       
-      // Start playing music first (browser might block if not triggered by user action)
+      // Start playing music and ensure it continues
       const audio = document.getElementById('background-music');
-      audio.play().then(() => {
-        // Update music toggle button state
-        playIcon.classList.add('hidden');
-        pauseIcon.classList.remove('hidden');
+      
+      if (!musicStarted) {
+        audio.volume = 0.5; // Set initial volume
+        audio.loop = true;  // Ensure looping is enabled
         
-        // Fade out landing page elements
-        gsap.to(['#landing', '.birthday-title', '#open-wish'], {
-          opacity: 0,
-          duration: 1,
-          ease: 'power2.in',
-          onComplete: () => {
-            document.getElementById('landing').style.display = 'none';
-            document.getElementById('main-content').classList.remove('hidden');
-            
-            // Fade in main content
-            gsap.from('#main-content', {
-              opacity: 0, 
-              duration: 1.2,
-              ease: 'power2.out',
-              onComplete: () => {
-                startSlideshow();
-                updateAgeDisplay();
-              }
-            });
-          }
+        audio.play().then(() => {
+          musicStarted = true;
+          // Update music toggle button state
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          
+          continueWithAnimation();
+        }).catch(error => {
+          console.log('Audio playback failed:', error);
+          continueWithAnimation();
         });
-      }).catch(error => {
-        console.log('Audio playback failed:', error);
-        // Continue with animations even if audio fails
-        gsap.to(['#landing', '.birthday-title', '#open-wish'], {
-          opacity: 0,
-          duration: 1,
-          ease: 'power2.in',
-          onComplete: () => {
-            document.getElementById('landing').style.display = 'none';
-            document.getElementById('main-content').classList.remove('hidden');
-            
-            gsap.from('#main-content', {
-              opacity: 0, 
-              duration: 1.2,
-              ease: 'power2.out',
-              onComplete: () => {
-                startSlideshow();
-                updateAgeDisplay();
-              }
-            });
-          }
-        });
-      });
+      } else {
+        continueWithAnimation();
+      }
     });
+
+    // Add this function to handle animations
+    function continueWithAnimation() {
+      // Fade out landing page elements
+      gsap.to(['#landing', '.birthday-title', '#open-wish'], {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.in',
+        onComplete: () => {
+          document.getElementById('landing').style.display = 'none';
+          document.getElementById('main-content').classList.remove('hidden');
+          
+          // Fade in main content
+          gsap.from('#main-content', {
+            opacity: 0, 
+            duration: 1.2,
+            ease: 'power2.out',
+            onComplete: () => {
+              startSlideshow();
+              updateAgeDisplay();
+            }
+          });
+        }
+      });
+    }
 
     // Music Toggle with Enhanced UI Feedback
     const audio = document.getElementById('background-music');
@@ -864,23 +864,39 @@
     const musicToggle = document.getElementById('music-toggle');
     
     musicToggle.addEventListener('click', () => {
+      const audio = document.getElementById('background-music');
+      
       if (audio.paused) {
-        audio.play();
-        playIcon.classList.add('hidden');
-        pauseIcon.classList.remove('hidden');
-        
-        // Visual feedback when music plays
-        gsap.to(musicToggle, {
-          scale: 1.2,
-          duration: 0.3,
-          yoyo: true,
-          repeat: 1,
-          ease: 'back.out'
-        });
+        audio.play().then(() => {
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+          
+          // Visual feedback when music plays
+          gsap.to(musicToggle, {
+            scale: 1.2,
+            duration: 0.3,
+            yoyo: true,
+            repeat: 1,
+            ease: 'back.out'
+          });
+        }).catch(console.error);
       } else {
         audio.pause();
         playIcon.classList.remove('hidden');
         pauseIcon.classList.add('hidden');
+      }
+    });
+
+    // Add this event listener to handle page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      const audio = document.getElementById('background-music');
+      
+      if (musicStarted) {
+        if (document.hidden) {
+          audio.pause();
+        } else {
+          audio.play().catch(console.error);
+        }
       }
     });
 
