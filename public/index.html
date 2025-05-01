@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy 22nd Birthday, My Love!</title>
-  <!-- Add these lines after the meta tags and before other links -->
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+  <title>Happy Birthday, My Love!</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- GSAP CDN -->
@@ -18,6 +14,10 @@
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <!-- Google Fonts - Playfair Display and Montserrat -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -417,6 +417,48 @@
         padding: 30px 20px;
       }
     }
+
+    /* Sparkles Animation */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      animation: sparkleAnim 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkleAnim {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* Update the responsive styles for slide text */
+    @media (max-width: 768px) {
+      .slide-text h2 {
+        font-size: 1.75rem !important; /* Override existing size */
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+      }
+      
+      .slide-text p {
+        font-size: 0.875rem !important; /* Override existing size */
+        line-height: 1.5;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-text h2 {
+        font-size: 1.5rem !important;
+      }
+      
+      .slide-text p {
+        font-size: 0.75rem !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -430,8 +472,8 @@
     
     <!-- Birthday Title -->
     <div class="birthday-title">
-      <h1>Happy 22nd Birthday!</h1>
-      <p>My love, born May 3, 2003 – every moment with you is a blessing I cherish.</p>
+      <h1>Happy Birthday, My Love!</h1>
+      <p>Every moment with you is a blessing I cherish beyond measure.</p>
     </div>
     
     <!-- Floating Hearts Container -->
@@ -459,32 +501,32 @@
     <div id="slideshow">
       <div class="slide" style="background-image: url('./images/pic2.jpg');">
         <div class="slide-text">
-          <h2 class="text-4xl md:text-6xl mb-6">Happy 22nd Birthday!</h2>
-          <p class="text-lg md:text-xl">My love, born May 3, 2003 – every moment with you is a blessing I cherish.</p>
+          <h2 class="text-3xl md:text-5xl mb-6">Happy Birthday, My Love..♡</h2>
+          <p class="text-base md:text-lg">Today we celebrate the universe's greatest gift to me - you</p>
         </div>
       </div>
-      <div class="slide" style="background-image: url('./images/slide2.jpg');">
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
         <div class="slide-text">
-          <h2 class="text-4xl md:text-6xl mb-6">You're My Universe</h2>
-          <p class="text-lg md:text-xl">Like the stars that guide sailors home, you light up my world with your presence.</p>
+          <h2 class="text-3xl md:text-5xl mb-6">You're My Safe Place</h2>
+          <p class="text-base md:text-lg">In your hands, I found trust. In your heart, I found home</p>
         </div>
       </div>
-      <div class="slide" style="background-image: url('./images/slide3.jpg');">
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
         <div class="slide-text">
-          <h2 class="text-4xl md:text-6xl mb-6">Our Eternal Love</h2>
-          <p class="text-lg md:text-xl">Some things are meant to last forever - our love is one of them.</p>
+          <h2 class="text-3xl md:text-5xl mb-6">Our Eternal Bond</h2>
+          <p class="text-base md:text-lg">Some connections are written in the stars - ours is one of them</p>
         </div>
       </div>
-      <div class="slide" style="background-image: url('./images/slide4.jpg');">
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
         <div class="slide-text">
-          <h2 class="text-4xl md:text-6xl mb-6">My Heart's Home</h2>
-          <p class="text-lg md:text-xl">In your eyes, I found my purpose; in your heart, I found my home.</p>
+          <h2 class="text-3xl md:text-5xl mb-6">My Heart Believes</h2>
+          <p class="text-base md:text-lg">In your eyes, I see my future. In your arms, I'm complete</p>
         </div>
       </div>
-      <div class="slide" style="background-image: url('./images/slide5.jpg');">
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
         <div class="slide-text">
-          <h2 class="text-4xl md:text-6xl mb-6">To Your 22nd Year</h2>
-          <p class="text-lg md:text-xl">May this year bring you all the joy, success, and love you so richly deserve.</p>
+          <h2 class="text-3xl md:text-5xl mb-6">To Our Beautiful Journey</h2>
+          <p class="text-base md:text-lg">May life bring us endless moments like these we cherish</p>
         </div>
       </div>
     </div>
@@ -505,20 +547,36 @@
     <section class="content-section">
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-semibold mb-8 text-center">
-          <span class="gradient-text">My Heartfelt Wish</span>
+          <span class="gradient-text">The Journey of ours..♡</span>
         </h2>
         <div class="message-content">
-          <p class="text-lg leading-relaxed">
-            My dearest husband, as we celebrate your 22nd birthday on May 3, 2025, I'm overwhelmed with the love that fills my heart for you. Since the day you were born on May 3, 2003, the universe was preparing something wonderful for me. Your laughter brightens my darkest days, your kindness inspires me to be better, and your soul connects with mine in ways I never thought possible.
+          <p class="text-lg leading-relaxed mb-6">
+            My dearest Husband, as I look back on that special day when I poured my heart out to you, I'm filled with overwhelming gratitude that you said yes. That moment when you accepted my proposal remains the most beautiful turning point in my life.
           </p>
-          <p class="text-lg leading-relaxed mt-4">
-            Every moment we've shared has been a treasure, every challenge we've overcome has strengthened our bond. You are my today and all of my tomorrows. As you enter this new year of your life, I wish for you all the happiness in the world, all the success your heart desires, and the continued joy of our love.
+
+          <p class="text-lg leading-relaxed mb-6">
+            I still remember those first 30 days of our journey - how you made every moment so memorable and full of love. When we first met, I thought you were wonderfully unpredictable, but as our relationship grew, I discovered the depth of your character - your trustworthiness, your respect, and the incredible care you've always shown me.
           </p>
-          <p class="text-lg leading-relaxed mt-4">
-            Here's to a magical birthday celebration and a lifetime filled with love, laughter, and countless beautiful memories together.
+
+          <p class="text-lg leading-relaxed mb-6">
+            In your hands, I found complete safety. In your presence, I found true understanding. The way you believed in us gave me strength I never knew I had. You became - and still are - my safe harbor in life's storms, my support in moments of doubt, and my partner in every adventure.
           </p>
-          <p class="text-lg leading-relaxed mt-4 text-right italic">
-            Forever yours, with all my love.
+
+          <p class="text-lg leading-relaxed mb-6">
+            That day at work when everything was changing, when I nervously said "I love you..♡", your answer changed my world. What began as a workplace connection blossomed into the love story I'd always dreamed of.
+          </p>
+
+          <p class="text-lg leading-relaxed mb-6">
+            You've shown me what true partnership means. You've taught me how beautiful it is to trust someone completely. And today, as we celebrate your birthday, I want to reaffirm - I still believe in us with all my heart. I believe in the love we've built together.
+          </p>
+
+          <p class="text-lg leading-relaxed mb-6">
+            Every day since you said yes has been a gift. The memories we've created, the challenges we've overcome, the simple moments we've shared - these are the treasures of my life.
+          </p>
+
+          <p class="text-lg leading-relaxed text-right italic mt-8">
+            Forever grateful for your love,<br>
+            Always yours
           </p>
         </div>
       </div>
@@ -526,10 +584,9 @@
 
     <!-- Footer -->
     <footer class="text-center">
-      <p class="text-lg text-white opacity-80">Made with 💖 for your special day – May 3, 2025</p>
+      <p class="text-lg text-white opacity-80">Celebrating the man who said yes to forever</p>
     </footer>
   </section>
-
   <script>
     // Create starry background
     function createStars() {
@@ -827,6 +884,37 @@
       }
     });
 
+    // Add this function before startSlideshow()
+    function createSparkles(slideElement) {
+      const sparkleCount = 15;
+      
+      for (let i = 0; i < sparkleCount; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        
+        // Random position
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        
+        // Random delay
+        sparkle.style.animationDelay = `${Math.random() * 2}s`;
+        
+        // Random size
+        const size = 2 + Math.random() * 3;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+        
+        // Random color
+        const colors = ['#fff', '#ffd700', '#7c3aed', '#ec4899'];
+        sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Add shadow glow
+        sparkle.style.boxShadow = `0 0 ${size * 2}px ${sparkle.style.background}`;
+        
+        slideElement.appendChild(sparkle);
+      }
+    }
+
     // Enhanced Slideshow with Smoother Transitions
     function startSlideshow() {
       const slides = document.querySelectorAll('.slide');
@@ -853,6 +941,15 @@
         const slide = slides[index];
         timeouts.push(setTimeout(() => {
           gsap.to(slide, { opacity: 1, duration: 1.5, ease: "power2.inOut" });
+          
+          // Add sparkles to the current slide
+          createSparkles(slide);
+          
+          // Remove old sparkles after transition
+          timeouts.push(setTimeout(() => {
+            const oldSparkles = slide.querySelectorAll('.sparkle');
+            oldSparkles.forEach(sparkle => sparkle.remove());
+          }, 7000));
           
           // Text animation
           const text = slide.querySelector('.slide-text');
@@ -957,6 +1054,7 @@
         nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
       }
       const daysToNextBday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+      const nextAge = years + (hasBirthdayOccurred ? 1 : 0);
       
       // Format the age display with HTML and apply styling
       document.getElementById('age-display').innerHTML = `
@@ -966,10 +1064,10 @@
           </span>
         </div>
         <div class="mb-4 text-lg">
-          That's <span class="text-white">${hours} hours, ${minutes} minutes, and ${seconds} seconds</span> today
+          That's <span class="text-white">${hours} hours, ${minutes} minutes, and ${seconds} seconds</span> of celebrating your beautiful life
         </div>
         <div class="mt-6 text-xl">
-          <span class="gradient-text font-semibold">Just ${daysToNextBday} days</span> until you turn 22!
+          <span class="gradient-text font-semibold">Just ${daysToNextBday} days</span> until you turn ${nextAge}!
         </div>
       `;
     }
