@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, My Love!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <!-- Particles.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- Google Fonts - Great Vibes and Cormorant Infant -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+
+  <style>
+    body {
+      font-family: 'Cormorant Infant', serif;
+      overflow-x: hidden;
+      margin: 0;
+      background: #0a051d;
+      color: #fff;
+      cursor: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(30, 15, 60, 0.6);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #7c3aed, #ec4899);
+      border-radius: 10px;
+    }
+
+    /* Landing Page */
+    #landing {
+      height: 100vh;
+      height: 100dvh;
+      background: radial-gradient(ellipse at center, #1e0961 0%, #0a051d 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    /* Starry Background */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: var(--opacity); }
+    }
+
+    /* Floating Hearts */
+    .floating-heart {
+      position: absolute;
+      font-size: 24px;
+      color: #ec4899;
+      opacity: 0;
+      z-index: 1;
+      animation: float-up 8s linear infinite;
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Section Floating Hearts (subtle, spread across entire box) */
+    .section-hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .section-heart {
+      position: absolute;
+      color: #ec4899;
+      opacity: 0;
+      animation: drift-heart var(--drift-duration, 8s) ease-in-out infinite;
+    }
+
+    @keyframes drift-heart {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(0deg) scale(0.8);
+      }
+      15% {
+        opacity: 0.15;
+      }
+      50% {
+        opacity: 0.18;
+        transform: translate(var(--dx, 20px), var(--dy, -30px)) rotate(180deg) scale(1);
+      }
+      85% {
+        opacity: 0.15;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(360deg) scale(0.8);
+      }
+    }
+
+    /* Enhanced Cursor Glitter */
+    .cursor-glitter {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: screen;
+      background: radial-gradient(circle, #fff, transparent 70%);
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.5));
+    }
+
+    .glitter-particle {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      background: white;
+      filter: drop-shadow(0 0 3px currentColor);
+    }
+
+    /* Elegant Button */
+    .elegant-btn {
+      font-family: 'Cormorant Infant', serif;
+      font-weight: 600;
+      background: linear-gradient(135deg, #8a4fff, #ff4f9e);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 5px 20px rgba(138, 79, 255, 0.5);
+      z-index: 200;
+    }
+
+    .elegant-btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s ease;
+      z-index: -1;
+    }
+
+    .elegant-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
+    }
+
+    .elegant-btn:hover:before {
+      left: 100%;
+      transition: all 0.5s ease;
+    }
+
+    /* Birthday Title */
+    .birthday-title {
+      position: relative;
+      z-index: 100;
+      opacity: 0;
+      text-align: center;
+      padding: 0 24px;
+      margin-bottom: 40px;
+    }
+
+    .birthday-title h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.4;
+      padding: 0.15em 0;
+    }
+
+    .birthday-title p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+
+    /* Slideshow */
+    #slideshow {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: #0a051d;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(10, 5, 29, 0.3), rgba(10, 5, 29, 0.8));
+    }
+
+    .slide-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 0;
+      z-index: 10;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .slide-text h2 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 15px rgba(124, 58, 237, 0.5);
+      margin-bottom: 20px;
+      line-height: 1.4;
+      letter-spacing: 1px;
+      padding: 0.1em 0;
+    }
+
+    .slide-text p {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+      line-height: 1.7;
+    }
+
+    /* Music Toggle */
+    #music-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 101;
+      background: rgba(124, 58, 237, 0.3);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #music-toggle:hover {
+      background: rgba(236, 72, 153, 0.5);
+      transform: scale(1.1);
+    }
+
+    /* Gradient Text and Elements */
+    .gradient-text {
+      background: linear-gradient(to right, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      font-size: 3.5rem;
+      line-height: 1.4;
+      padding: 0.15em 0;
+    }
+
+    /* Enhanced Content Sections */
+    .content-section {
+      position: relative;
+      padding: 100px 20px;
+      overflow: visible;
+    }
+
+    .content-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    /* Age Display with Elegant Styling */
+    .age-content {
+      background: linear-gradient(135deg, rgba(30, 9, 97, 0.8), rgba(76, 29, 149, 0.8));
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .age-content::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.1), transparent 70%);
+      opacity: 0.5;
+      z-index: -1;
+      animation: rotate 30s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #age-display {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Final Message Styling */
+    .message-content {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .message-content p {
+      line-height: 1.7;
+      font-weight: 300;
+      font-size: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Footer Styling */
+    footer {
+      background: linear-gradient(to bottom, rgba(10, 5, 29, 0.8), rgba(30, 9, 97, 0.8));
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(236, 72, 153, 0.5), transparent);
+    }
+
+    /* Sparkles Animation */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0;
+      animation: sparkleAnim 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkleAnim {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* Slideshow Navigation */
+    .slide-nav {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slide-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+
+    .slide-dot.active {
+      background: #ec4899;
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.6);
+      transform: scale(1.3);
+    }
+
+    .slide-dot:hover {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .slide-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      background: rgba(124, 58, 237, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .slide-arrow:hover {
+      background: rgba(236, 72, 153, 0.4);
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-arrow.prev { left: 16px; }
+    .slide-arrow.next { right: 16px; }
+
+    /* ===========================================
+       CONSISTENT TYPE SCALE
+       Desktop:  Headings 3.5rem  |  Body 1.2rem
+       Tablet:   Headings 2.5rem  |  Body 1.1rem
+       Mobile:   Headings 2rem    |  Body 1rem
+       Small:    Headings 1.7rem  |  Body 0.95rem
+       =========================================== */
+
+    /* ===== RESPONSIVE - Tablet (768px) ===== */
+    @media (max-width: 768px) {
+      /* -- Headings: all 2.5rem -- */
+      .birthday-title h1 {
+        font-size: 2.5rem;
+      }
+
+      .slide-text h2 {
+        font-size: 2.5rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 0.75rem;
+      }
+
+      .gradient-text {
+        font-size: 2.5rem;
+      }
+
+      /* -- Body: all 1.1rem -- */
+      .birthday-title p {
+        font-size: 1.1rem;
+      }
+
+      .slide-text p {
+        font-size: 1.1rem !important;
+        line-height: 1.7;
+      }
+
+      #age-display {
+        font-size: 1.1rem;
+      }
+
+      .message-content p {
+        font-size: 1.1rem;
+      }
+
+      .elegant-btn {
+        padding: 14px 28px;
+        font-size: 1.1rem;
+      }
+
+      footer p {
+        font-size: 1.1rem;
+      }
+
+      /* -- Layout -- */
+      .birthday-title {
+        padding: 0 24px;
+        margin-bottom: 32px;
+      }
+
+      #slideshow {
+        height: 100vh;
+        height: 100dvh;
+      }
+
+      .slide-text {
+        width: 88%;
+      }
+
+      .content-section {
+        padding: 60px 20px;
+      }
+
+      .age-content, .message-content {
+        padding: 28px 20px;
+      }
+
+      #music-toggle {
+        width: 44px;
+        height: 44px;
+        top: 16px;
+        right: 16px;
+      }
+
+      .slide-arrow {
+        width: 40px;
+        height: 40px;
+      }
+      .slide-arrow.prev { left: 10px; }
+      .slide-arrow.next { right: 10px; }
+
+      .slide-nav {
+        bottom: 24px;
+        gap: 10px;
+      }
+    }
+
+    /* ===== RESPONSIVE - Mobile (480px) ===== */
+    @media (max-width: 480px) {
+      /* -- Headings: all 2rem -- */
+      .birthday-title h1 {
+        font-size: 2rem;
+      }
+
+      .slide-text h2 {
+        font-size: 2rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 0.6rem;
+      }
+
+      .gradient-text {
+        font-size: 2rem;
+      }
+
+      /* -- Body: all 1rem -- */
+      .birthday-title p {
+        font-size: 1rem;
+      }
+
+      .slide-text p {
+        font-size: 1rem !important;
+        line-height: 1.7;
+      }
+
+      #age-display {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .message-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+
+      .elegant-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+
+      footer p {
+        font-size: 1rem;
+      }
+
+      /* -- Layout -- */
+      .birthday-title {
+        padding: 0 20px;
+        margin-bottom: 28px;
+      }
+
+      #slideshow {
+        height: 100vh;
+        height: 100dvh;
+      }
+
+      .slide-text {
+        width: 90%;
+        padding: 0 8px;
+      }
+
+      .content-section {
+        padding: 48px 16px;
+      }
+
+      .age-content {
+        padding: 24px 16px;
+        border-radius: 16px;
+      }
+
+      .message-content {
+        padding: 24px 16px;
+        border-radius: 16px;
+      }
+
+      .slide-arrow {
+        width: 36px;
+        height: 36px;
+      }
+      .slide-arrow svg {
+        width: 16px;
+        height: 16px;
+      }
+      .slide-arrow.prev { left: 6px; }
+      .slide-arrow.next { right: 6px; }
+
+      .slide-nav {
+        bottom: 20px;
+        gap: 8px;
+      }
+
+      .slide-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      footer {
+        padding: 28px 16px;
+      }
+
+      #music-toggle {
+        width: 40px;
+        height: 40px;
+        top: 12px;
+        right: 12px;
+      }
+    }
+
+    /* ===== RESPONSIVE - Small Mobile (360px) ===== */
+    @media (max-width: 360px) {
+      /* -- Headings: all 1.7rem -- */
+      .birthday-title h1 {
+        font-size: 1.7rem;
+      }
+
+      .slide-text h2 {
+        font-size: 1.7rem !important;
+        line-height: 1.4 !important;
+      }
+
+      .gradient-text {
+        font-size: 1.7rem;
+      }
+
+      /* -- Body: all 0.95rem -- */
+      .birthday-title p {
+        font-size: 0.95rem;
+      }
+
+      .slide-text p {
+        font-size: 0.95rem !important;
+      }
+
+      #age-display {
+        font-size: 0.95rem;
+      }
+
+      .message-content p {
+        font-size: 0.95rem;
+      }
+
+      .elegant-btn {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+
+      footer p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cursor Glitter Elements -->
+  <div class="cursor-glitter" id="cursor-glitter"></div>
+
+  <!-- Landing Page -->
+  <section id="landing">
+    <!-- Starry Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Birthday Title -->
+    <div class="birthday-title">
+      <h1>Happy Birthday..&#9825;</h1>
+      <p>Every moment with you is a blessing I cherish beyond measure.</p>
+    </div>
+
+    <!-- Floating Hearts Container -->
+    <div id="floating-hearts"></div>
+
+    <button id="open-wish" class="elegant-btn">
+      Your Birthday Wish is Here!
+    </button>
+  </section>
+
+  <!-- Music Toggle -->
+  <button id="music-toggle">
+    <svg id="play-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v18l15-9L5 3z"></path></svg>
+    <svg id="pause-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"></path></svg>
+  </button>
+
+  <!-- Audio - Bensound Sweet (local file) -->
+  <audio id="background-music" loop preload="auto">
+    <source src="./music/background-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Content (Hidden Initially) -->
+  <section id="main-content" class="hidden">
+    <!-- Slideshow -->
+    <div id="slideshow">
+      <div class="slide" style="background-image: url('./images/pic2.jpg');">
+        <div class="slide-text">
+          <h2>Happy Birthday, Nanna&#9825;</h2>
+          <p>Today we celebrate the universe's greatest gift to me - you</p>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
+        <div class="slide-text">
+          <h2>You're My Safe Place</h2>
+          <p>In your hands, I found trust. In your heart, I found home</p>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
+        <div class="slide-text">
+          <h2>Our Eternal Bond</h2>
+          <p>Some connections are written in the stars - ours is one of them</p>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
+        <div class="slide-text">
+          <h2>My Heart Believes</h2>
+          <p>In your eyes, I see my future. In your arms, I'm complete</p>
+        </div>
+      </div>
+      <div class="slide" style="background-image: url('./images/picbg.jpg');">
+        <div class="slide-text">
+          <h2>To Our Beautiful Journey</h2>
+          <p>May life bring us endless moments like these we cherish</p>
+        </div>
+      </div>
+
+      <!-- Slideshow Navigation Arrows -->
+      <button class="slide-arrow prev" aria-label="Previous slide">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+      <button class="slide-arrow next" aria-label="Next slide">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+
+      <!-- Slideshow Dots -->
+      <div class="slide-nav">
+        <button class="slide-dot active" data-index="0" aria-label="Slide 1"></button>
+        <button class="slide-dot" data-index="1" aria-label="Slide 2"></button>
+        <button class="slide-dot" data-index="2" aria-label="Slide 3"></button>
+        <button class="slide-dot" data-index="3" aria-label="Slide 4"></button>
+        <button class="slide-dot" data-index="4" aria-label="Slide 5"></button>
+      </div>
+    </div>
+
+    <!-- Age Display Section -->
+    <section class="content-section">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="mb-8 text-center">
+          <span class="gradient-text">Celebrating Every Moment With You</span>
+        </h2>
+        <div class="age-content">
+          <div id="age-display" class="text-center"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Message -->
+    <section class="content-section">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="mb-8 text-center">
+          <span class="gradient-text">The Journey of ours..&#9825;</span>
+        </h2>
+        <div class="message-content" style="position:relative;">
+          <div class="section-hearts" id="message-hearts"></div>
+          <p class="mb-6">
+            My dearest Husband, as I look back on that special day when I poured my heart out to you, I'm filled with overwhelming gratitude that you said yes. That moment when you accepted my proposal remains the most beautiful turning point in my life.
+          </p>
+
+          <p class="mb-6">
+            I still remember those first 30 days of our journey - how you made every moment so memorable and full of love. When we first met, I thought you were wonderfully unpredictable, but as our relationship grew, I discovered the depth of your character - your trustworthiness, your respect, and the incredible care you've always shown me.
+          </p>
+
+          <p class="mb-6">
+            In your hands, I found complete safety. In your presence, I found true understanding. The way you believed in us gave me strength I never knew I had. You became - and still are - my safe harbor in life's storms, my support in moments of doubt, and my partner in every adventure.
+          </p>
+
+          <p class="mb-6">
+            That day at work when everything was changing, when I nervously said "I love you..&#9825;", your answer changed my world. What began as a workplace connection blossomed into the love story I'd always dreamed of.
+          </p>
+
+          <p class="mb-6">
+            You've shown me what true partnership means. You've taught me how beautiful it is to trust someone completely. And today, as we celebrate your birthday, I want to reaffirm - I still believe in us with all my heart. I believe in the love we've built together.
+          </p>
+
+          <p class="mb-6">
+            Every day since you said yes has been a gift. The memories we've created, the challenges we've overcome, the simple moments we've shared - these are the treasures of my life.
+          </p>
+
+          <p class="text-right italic mt-8">
+            Forever grateful for your love,<br>
+            Always yours
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+      <p class="text-white opacity-80">Celebrating the man who said yes to forever..&#128150;</p>
+    </footer>
+  </section>
+  <script>
+    // Create starry background
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 200;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+
+        // Random size
+        const size = Math.random() * 3;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+
+        // Random position
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+
+        // Random opacity and animation duration
+        star.style.setProperty('--opacity', Math.random());
+        star.style.setProperty('--duration', `${5 + Math.random() * 10}s`);
+
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Create floating hearts
+    function createFloatingHearts() {
+      const heartsContainer = document.getElementById('floating-hearts');
+      const heartCount = 15;
+
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.innerHTML = '&#10084;';
+
+        // Random position
+        heart.style.left = `${Math.random() * 100}%`;
+
+        // Random delay
+        heart.style.animationDelay = `${Math.random() * 8}s`;
+
+        // Random size
+        const size = 16 + Math.random() * 24;
+        heart.style.fontSize = `${size}px`;
+
+        heartsContainer.appendChild(heart);
+      }
+    }
+
+    // Create subtle floating hearts spread across entire message box
+    function createSectionHearts() {
+      const container = document.getElementById('message-hearts');
+      if (!container) return;
+      const heartCount = 20;
+
+      for (let i = 0; i < heartCount; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('section-heart');
+        heart.innerHTML = '&#10084;';
+        // Spread across full width and full height
+        heart.style.left = `${5 + Math.random() * 90}%`;
+        heart.style.top = `${5 + Math.random() * 90}%`;
+        // Random drift direction per heart
+        heart.style.setProperty('--dx', `${(Math.random() - 0.5) * 50}px`);
+        heart.style.setProperty('--dy', `${(Math.random() - 0.5) * 50}px`);
+        heart.style.setProperty('--drift-duration', `${6 + Math.random() * 6}s`);
+        heart.style.animationDelay = `${Math.random() * 8}s`;
+        const size = 10 + Math.random() * 16;
+        heart.style.fontSize = `${size}px`;
+        container.appendChild(heart);
+      }
+    }
+
+    // Enhanced Cursor Glitter Effect with reduced spread
+    const cursorGlitter = document.getElementById('cursor-glitter');
+    const colors = ['#7c3aed', '#ec4899', '#ffffff', '#fef3c7', '#a5b4fc', '#c4b5fd'];
+    let particles = [];
+    const maxParticles = 80;
+
+    // Track mouse position
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Update main cursor position
+      cursorGlitter.style.left = `${mouseX}px`;
+      cursorGlitter.style.top = `${mouseY}px`;
+
+      // Create glitter particles
+      createGlitterParticles();
+    });
+
+    function createGlitterParticles() {
+      const particleCount = 5 + Math.floor(Math.random() * 4);
+
+      for (let i = 0; i < particleCount; i++) {
+        if (particles.length >= maxParticles) {
+          const oldestParticle = particles.shift();
+          if (oldestParticle) oldestParticle.remove();
+        }
+
+        const particle = document.createElement('div');
+        particle.className = 'glitter-particle';
+
+        const size = 1 + Math.random() * 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        const colorChoice = Math.random();
+        let color;
+        if (colorChoice < 0.5) {
+          color = '#ffffff';
+        } else if (colorChoice < 0.8) {
+          color = '#7c3aed';
+        } else {
+          color = colors[Math.floor(Math.random() * colors.length)];
+        }
+        particle.style.backgroundColor = color;
+        particle.style.color = color;
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 5 + Math.random() * 15;
+        const x = mouseX + Math.cos(angle) * distance;
+        const y = mouseY + Math.sin(angle) * distance;
+
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+
+        const duration = 1 + Math.random() * 1.5;
+        const delay = Math.random() * 0.2;
+
+        document.body.appendChild(particle);
+        particles.push(particle);
+
+        const movementX = (Math.random() - 0.5) * 40;
+        const movementY = (Math.random() - 0.5) * 40;
+        const rotation = Math.random() * 360;
+        const scale = 0.1 + Math.random() * 0.3;
+
+        gsap.to(particle, {
+          x: `+=${movementX}`,
+          y: `+=${movementY}`,
+          rotation: rotation,
+          scale: scale,
+          opacity: 0,
+          duration: duration,
+          delay: delay,
+          ease: 'power1.out',
+          onComplete: () => {
+            particle.remove();
+            particles = particles.filter(p => p !== particle);
+          }
+        });
+
+        gsap.to(particle, {
+          opacity: 0.6,
+          scale: 1.2,
+          duration: duration/4,
+          yoyo: true,
+          repeat: 2,
+          ease: 'sine.inOut'
+        });
+      }
+    }
+
+    // Initialize
+    createStars();
+    createFloatingHearts();
+
+    // Animate title and button with better timing
+    gsap.to('.birthday-title', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: 'power2.out',
+      delay: 0.3
+    });
+
+    gsap.from('#open-wish', {
+      scale: 0.8,
+      opacity: 1,
+      y: 20,
+      duration: 1,
+      ease: 'back.out(1.7)',
+      delay: 0.5
+    });
+
+    // Enhanced Confetti Effect
+    function launchConfetti() {
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+        colors: ['#7c3aed', '#ec4899', '#ffffff', '#fef3c7'],
+        shapes: ['circle', 'square'],
+        gravity: 0.8,
+        drift: 1,
+        ticks: 300
+      });
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0, y: 0.65 },
+          colors: ['#7c3aed', '#ec4899', '#ffffff'],
+        });
+
+        confetti({
+          particleCount: 80,
+          angle: 120,
+          spread: 70,
+          origin: { x: 1, y: 0.65 },
+          colors: ['#7c3aed', '#ec4899', '#ffffff'],
+        });
+      }, 300);
+    }
+
+    // Music state
+    let musicStarted = false;
+
+    // Open Wish button click handler
+    document.getElementById('open-wish').addEventListener('click', () => {
+      launchConfetti();
+
+      const audio = document.getElementById('background-music');
+
+      if (!musicStarted) {
+        audio.volume = 0.5;
+        audio.loop = true;
+
+        audio.play().then(() => {
+          musicStarted = true;
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+
+          continueWithAnimation();
+        }).catch(error => {
+          console.log('Audio playback failed:', error);
+          continueWithAnimation();
+        });
+      } else {
+        continueWithAnimation();
+      }
+    });
+
+    // Handle animations after button click
+    function continueWithAnimation() {
+      gsap.to(['#landing', '.birthday-title', '#open-wish'], {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.in',
+        onComplete: () => {
+          document.getElementById('landing').style.display = 'none';
+          document.getElementById('main-content').classList.remove('hidden');
+
+          gsap.from('#main-content', {
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power2.out',
+            onComplete: () => {
+              startSlideshow();
+              updateAgeDisplay();
+              createSectionHearts();
+            }
+          });
+        }
+      });
+    }
+
+    // Music Toggle with Enhanced UI Feedback
+    const audio = document.getElementById('background-music');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const musicToggle = document.getElementById('music-toggle');
+
+    musicToggle.addEventListener('click', () => {
+      const audio = document.getElementById('background-music');
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+
+          gsap.to(musicToggle, {
+            scale: 1.2,
+            duration: 0.3,
+            yoyo: true,
+            repeat: 1,
+            ease: 'back.out'
+          });
+        }).catch(console.error);
+      } else {
+        audio.pause();
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+      }
+    });
+
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', () => {
+      const audio = document.getElementById('background-music');
+
+      if (musicStarted) {
+        if (document.hidden) {
+          audio.pause();
+        } else {
+          audio.play().catch(console.error);
+        }
+      }
+    });
+
+    // Sparkles for slides
+    function createSparkles(slideElement) {
+      const sparkleCount = 15;
+
+      for (let i = 0; i < sparkleCount; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.animationDelay = `${Math.random() * 2}s`;
+
+        const size = 2 + Math.random() * 3;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+
+        const colors = ['#fff', '#ffd700', '#7c3aed', '#ec4899'];
+        sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        sparkle.style.boxShadow = `0 0 ${size * 2}px ${sparkle.style.background}`;
+
+        slideElement.appendChild(sparkle);
+      }
+    }
+
+    // Enhanced Slideshow with Navigation Controls
+    let slideshowTimer = null;
+    let currentSlideIndex = 0;
+
+    function startSlideshow() {
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.slide-dot');
+      const prevBtn = document.querySelector('.slide-arrow.prev');
+      const nextBtn = document.querySelector('.slide-arrow.next');
+      let timeouts = [];
+
+      function clearAllTimeouts() {
+        timeouts.forEach(timeout => clearTimeout(timeout));
+        timeouts = [];
+      }
+
+      function showSlide(index) {
+        clearAllTimeouts();
+        currentSlideIndex = index;
+
+        // Update dots
+        dots.forEach((d, i) => {
+          d.classList.toggle('active', i === index);
+        });
+
+        // Hide all slides
+        slides.forEach((slide) => {
+          gsap.to(slide, { opacity: 0, duration: 1.5, ease: "power2.inOut" });
+          const text = slide.querySelector('.slide-text');
+          gsap.to(text, { opacity: 0, y: 20, duration: 0.8 });
+        });
+
+        // Show the current slide
+        const slide = slides[index];
+        timeouts.push(setTimeout(() => {
+          gsap.to(slide, { opacity: 1, duration: 1.5, ease: "power2.inOut" });
+
+          createSparkles(slide);
+
+          timeouts.push(setTimeout(() => {
+            const oldSparkles = slide.querySelectorAll('.sparkle');
+            oldSparkles.forEach(sparkle => sparkle.remove());
+          }, 7000));
+
+          // Text animation
+          timeouts.push(setTimeout(() => {
+            const text = slide.querySelector('.slide-text');
+            gsap.to(text, {
+              opacity: 1,
+              y: 0,
+              duration: 1.2,
+              ease: "back.out(1.2)"
+            });
+
+            // Animate individual title letters
+            const h2 = text.querySelector('h2');
+            if (h2) {
+              const originalText = h2.textContent;
+              h2.innerHTML = '';
+              originalText.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter === ' ' ? ' ' : letter;
+                span.style.opacity = '0';
+                span.style.display = 'inline-block';
+                span.style.transform = 'translateY(20px)';
+                h2.appendChild(span);
+
+                timeouts.push(setTimeout(() => {
+                  gsap.to(span, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "back.out(1.7)"
+                  });
+                }, 50 * i));
+              });
+            }
+          }, 500));
+
+          // Subtle Ken Burns effect
+          gsap.fromTo(slide,
+            { scale: 1 },
+            {
+              scale: 1.1,
+              duration: 8,
+              ease: "power1.inOut"
+            }
+          );
+        }, 300));
+
+        // Auto-advance to next slide
+        timeouts.push(setTimeout(() => {
+          showSlide((index + 1) % slides.length);
+        }, 7000));
+      }
+
+      // Prev/Next arrow click
+      prevBtn.addEventListener('click', () => {
+        showSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+      });
+      nextBtn.addEventListener('click', () => {
+        showSlide((currentSlideIndex + 1) % slides.length);
+      });
+
+      // Dot click
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.index);
+          if (idx !== currentSlideIndex) showSlide(idx);
+        });
+      });
+
+      // Keyboard left/right arrows
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') showSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+        if (e.key === 'ArrowRight') showSlide((currentSlideIndex + 1) % slides.length);
+      });
+
+      // Touch swipe support
+      let touchStartX = 0;
+      const slideshow = document.getElementById('slideshow');
+      slideshow.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      slideshow.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) showSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+          else showSlide((currentSlideIndex + 1) % slides.length);
+        }
+      }, { passive: true });
+
+      // Start the slideshow
+      showSlide(0);
+    }
+
+    // Age Display with more accurate and elegant presentation
+    function updateAgeDisplay() {
+      const birthDate = new Date(2003, 4, 3);
+      const now = new Date();
+
+      let years = now.getFullYear() - birthDate.getFullYear();
+
+      const hasBirthdayOccurred =
+        now.getMonth() > birthDate.getMonth() ||
+        (now.getMonth() === birthDate.getMonth() && now.getDate() >= birthDate.getDate());
+
+      if (!hasBirthdayOccurred) {
+        years--;
+      }
+
+      let months = now.getMonth() - birthDate.getMonth();
+      if (months < 0) months += 12;
+      if (now.getDate() < birthDate.getDate()) {
+        months = (months - 1 + 12) % 12;
+      }
+
+      let days = now.getDate() - birthDate.getDate();
+      if (days < 0) {
+        const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += lastMonth.getDate();
+      }
+
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      const nextBirthday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+      if (nextBirthday < now) {
+        nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+      }
+      const daysToNextBday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+      const nextAge = years + (hasBirthdayOccurred ? 1 : 0);
+
+      document.getElementById('age-display').innerHTML = `
+        <div class="mb-6">
+          <span class="gradient-text font-semibold" style="font-size:inherit">
+            ${years} years, ${months} months, and ${days} days
+          </span>
+        </div>
+        <div class="mb-4">
+          That's <span class="text-white">${hours} hours, ${minutes} minutes, and ${seconds} seconds</span> of celebrating your beautiful life
+        </div>
+        <div class="mt-6">
+          <span class="gradient-text font-semibold" style="font-size:inherit">Just ${daysToNextBday} days</span> until you turn ${nextAge}!
+        </div>
+      `;
+    }
+
+    // Update age display every second
+    setInterval(updateAgeDisplay, 1000);
+  </script>
+</body>
+</html>
