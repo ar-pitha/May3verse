@@ -217,6 +217,164 @@
       transition: all 0.5s ease;
     }
 
+    /* Code Lock Styles */
+    #code-lock {
+      z-index: 200;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glitter container */
+    #code-glitter {
+      position: absolute;
+      inset: -40px -60px;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .glitter-dot {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #f9a8d4;
+      animation: glitterFloat var(--dur) ease-in-out infinite;
+      animation-delay: var(--delay);
+      opacity: 0;
+    }
+
+    @keyframes glitterFloat {
+      0% { opacity: 0; transform: translateY(0) scale(0.5); }
+      20% { opacity: 1; }
+      50% { opacity: 0.8; transform: translateY(-15px) scale(1); }
+      80% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-30px) scale(0.3); }
+    }
+
+    .code-lock-label {
+      font-family: 'Cormorant Infant', serif;
+      font-size: 1.1rem;
+      color: rgba(249, 168, 212, 0.8);
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .code-digits {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .digit-heart {
+      color: rgba(249, 168, 212, 0.3);
+      font-size: 0.5rem;
+      margin: 0 2px;
+      animation: heartPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.4); opacity: 0.7; }
+    }
+
+    .code-digit {
+      width: 42px;
+      height: 48px;
+      border: none;
+      /* border-bottom: 2px solid rgba(249, 168, 212, 0.3); */
+      border-radius: 0;
+      background: transparent;
+      color: #f9a8d4;
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.6rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+      caret-color: transparent;
+    }
+
+    .code-digit:focus {
+      border-bottom-color: #f9a8d4;
+      color: #fce7f3;
+      text-shadow: 0 0 12px rgba(249, 168, 212, 0.5);
+      /* box-shadow: 0 4px 16px rgba(249, 168, 212, 0.2); */
+    }
+
+    .code-digit.filled {
+      border-bottom-color: rgba(192, 132, 252, 0.55);
+      color: #d8b4fe;
+      text-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+    }
+
+    .code-digit.correct {
+      border-bottom-color: #f9a8d4;
+      color: #f9a8d4;
+      text-shadow: 0 0 14px rgba(249, 168, 212, 0.5);
+      /* box-shadow: 0 4px 18px rgba(167, 243, 208, 0.2); */
+      animation: popIn 0.4s ease;
+    }
+
+    .code-digit.wrong {
+      border-bottom-color: #fca5a5;
+      color: #fca5a5;
+      text-shadow: 0 0 10px rgba(252, 165, 165, 0.4);
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .code-hint {
+      font-family: 'Cormorant Infant', serif;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.28);
+      font-style: italic;
+    }
+
+    .code-error {
+      font-family: 'Cormorant Infant', serif;
+      font-size: 0.9rem;
+      color: #fca5a5;
+      margin-top: 6px;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 480px) {
+      .code-digit {
+        width: 38px;
+        height: 44px;
+        font-size: 1.4rem;
+      }
+      .code-lock-label {
+        font-size: 1rem;
+        padding: 0 10px;
+      }
+    }
+
     /* Birthday Title */
     .birthday-title {
       position: relative;
@@ -786,9 +944,22 @@
     <!-- Floating Hearts Container -->
     <div id="floating-hearts"></div>
 
-    <button id="open-wish" class="elegant-btn">
-      Your Birthday Wish is Here!
-    </button>
+    <!-- Secret Code Lock -->
+    <div id="code-lock">
+      <div id="code-glitter"></div>
+      <p class="code-lock-label">Enter the secret code to unlock your surprise</p>
+      <div class="code-digits">
+        <input type="tel" maxlength="1" class="code-digit" data-index="0" autofocus />
+        <span class="digit-heart">&#10084;</span>
+        <input type="tel" maxlength="1" class="code-digit" data-index="1" />
+        <span class="digit-heart">&#10084;</span>
+        <input type="tel" maxlength="1" class="code-digit" data-index="2" />
+        <span class="digit-heart">&#10084;</span>
+        <input type="tel" maxlength="1" class="code-digit" data-index="3" />
+      </div>
+      <p id="code-hint" class="code-hint">Hint: A number close to your heart</p>
+      <p id="code-error" class="code-error hidden">Oops! Wrong code, try again Sweetheart!</p>
+    </div>
   </section>
 
   <!-- Music Toggle -->
@@ -1082,9 +1253,30 @@
       }
     }
 
+    // Create glitter around code lock
+    function createCodeGlitter() {
+      const container = document.getElementById('code-glitter');
+      if (!container) return;
+      const colors = ['#f9a8d4', '#c084fc', '#fde68a', '#ffffff'];
+      for (let i = 0; i < 30; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'glitter-dot';
+        dot.style.left = `${Math.random() * 100}%`;
+        dot.style.top = `${Math.random() * 100}%`;
+        dot.style.background = colors[Math.floor(Math.random() * colors.length)];
+        dot.style.setProperty('--dur', `${1.5 + Math.random() * 2.5}s`);
+        dot.style.setProperty('--delay', `${Math.random() * 3}s`);
+        const size = 2 + Math.random() * 2;
+        dot.style.width = `${size}px`;
+        dot.style.height = `${size}px`;
+        container.appendChild(dot);
+      }
+    }
+
     // Initialize
     createStars();
     createFloatingHearts();
+    createCodeGlitter();
 
     // Animate title and button with better timing
     gsap.to('.birthday-title', {
@@ -1095,7 +1287,7 @@
       delay: 0.3
     });
 
-    gsap.from('#open-wish', {
+    gsap.from('#code-lock', {
       scale: 0.8,
       opacity: 1,
       y: 20,
@@ -1139,34 +1331,86 @@
     // Music state
     let musicStarted = false;
 
-    // Open Wish button click handler
-    document.getElementById('open-wish').addEventListener('click', () => {
-      launchConfetti();
+    // Secret Code Lock Logic
+    const SECRET_CODE = '7125';
+    const codeDigits = document.querySelectorAll('.code-digit');
+    const codeError = document.getElementById('code-error');
+    const codeHint = document.getElementById('code-hint');
 
-      const audio = document.getElementById('background-music');
+    codeDigits.forEach((input, idx) => {
+      input.addEventListener('input', (e) => {
+        const val = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = val;
 
-      if (!musicStarted) {
-        audio.volume = 0.5;
-        audio.loop = true;
+        if (val) {
+          input.classList.add('filled');
+          // Auto-focus next input
+          if (idx < 3) codeDigits[idx + 1].focus();
+        } else {
+          input.classList.remove('filled');
+        }
 
-        audio.play().then(() => {
-          musicStarted = true;
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
+        // Check if all 4 digits are entered
+        const entered = Array.from(codeDigits).map(d => d.value).join('');
+        if (entered.length === 4) {
+          if (entered === SECRET_CODE) {
+            // Correct code!
+            codeError.classList.add('hidden');
+            codeDigits.forEach(d => {
+              d.classList.add('correct');
+              d.disabled = true;
+            });
 
-          continueWithAnimation();
-        }).catch(error => {
-          console.log('Audio playback failed:', error);
-          continueWithAnimation();
-        });
-      } else {
-        continueWithAnimation();
-      }
+            // Delay then unlock
+            setTimeout(() => {
+              launchConfetti();
+              const audio = document.getElementById('background-music');
+              if (!musicStarted) {
+                audio.volume = 0.5;
+                audio.loop = true;
+                audio.play().then(() => {
+                  musicStarted = true;
+                  playIcon.classList.add('hidden');
+                  pauseIcon.classList.remove('hidden');
+                  continueWithAnimation();
+                }).catch(error => {
+                  console.log('Audio playback failed:', error);
+                  continueWithAnimation();
+                });
+              } else {
+                continueWithAnimation();
+              }
+            }, 800);
+          } else {
+            // Wrong code!
+            codeError.classList.remove('hidden');
+            codeHint.classList.add('hidden');
+            codeDigits.forEach(d => d.classList.add('wrong'));
+
+            setTimeout(() => {
+              codeDigits.forEach(d => {
+                d.value = '';
+                d.classList.remove('wrong', 'filled');
+              });
+              codeDigits[0].focus();
+            }, 600);
+          }
+        }
+      });
+
+      // Handle backspace to go to previous input
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && idx > 0) {
+          codeDigits[idx - 1].focus();
+          codeDigits[idx - 1].value = '';
+          codeDigits[idx - 1].classList.remove('filled');
+        }
+      });
     });
 
     // Handle animations after button click
     function continueWithAnimation() {
-      gsap.to(['#landing', '.birthday-title', '#open-wish'], {
+      gsap.to(['#landing', '.birthday-title', '#code-lock'], {
         opacity: 0,
         duration: 1,
         ease: 'power2.in',
